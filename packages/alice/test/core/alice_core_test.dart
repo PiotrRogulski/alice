@@ -31,7 +31,6 @@ void main() {
     ).thenAnswer((_) => const Stream.empty());
     aliceCore = AliceCore(
       configuration: AliceConfiguration(
-        showNotification: false,
         showInspectorOnShake: false,
         storage: aliceStorage,
         logger: aliceLogger,

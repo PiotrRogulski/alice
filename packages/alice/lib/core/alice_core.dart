@@ -1,9 +1,7 @@
-import 'dart:async' show FutureOr, StreamSubscription;
+import 'dart:async' show FutureOr;
 
-import 'package:alice/core/alice_storage.dart';
 import 'package:alice/core/alice_utils.dart';
 import 'package:alice/helper/alice_export_helper.dart';
-import 'package:alice/core/alice_notification.dart';
 import 'package:alice/helper/operating_system.dart';
 import 'package:alice/model/alice_configuration.dart';
 import 'package:alice/model/alice_export_result.dart';
@@ -22,26 +20,12 @@ class AliceCore {
   /// Detector used to detect device shakes
   ShakeDetector? _shakeDetector;
 
-  /// Helper used for notification management
-  AliceNotification? _notification;
-
-  /// Subscription for call changes
-  StreamSubscription<List<AliceHttpCall>>? _callsSubscription;
-
   /// Flag used to determine whether is inspector opened
   bool _isInspectorOpened = false;
 
   /// Creates alice core instance
   AliceCore({required AliceConfiguration configuration}) {
     _configuration = configuration;
-    _subscribeToCallChanges();
-    if (_configuration.showNotification) {
-      _notification = AliceNotification();
-      _notification?.configure(
-        notificationIcon: _configuration.notificationIcon,
-        openInspectorCallback: navigateToCallListScreen,
-      );
-    }
     if (_configuration.showInspectorOnShake) {
       if (OperatingSystem.isAndroid || OperatingSystem.isIOS) {
         _shakeDetector = ShakeDetector.autoStart(
@@ -63,18 +47,6 @@ class AliceCore {
   /// Dispose subjects and subscriptions
   void dispose() {
     _shakeDetector?.stopListening();
-    _unsubscribeFromCallChanges();
-  }
-
-  /// Called when calls has been updated
-  Future<void> _onCallsChanged(List<AliceHttpCall>? calls) async {
-    if (calls != null && calls.isNotEmpty) {
-      final AliceStats stats = _configuration.aliceStorage.getStats();
-      _notification?.showStatsNotification(
-        context: getContext()!,
-        stats: stats,
-      );
-    }
   }
 
   /// Opens Http calls inspector. This will navigate user to the new fullscreen
@@ -141,17 +113,4 @@ class AliceCore {
 
   /// Returns flag which determines whether inspector is opened
   bool get isInspectorOpened => _isInspectorOpened;
-
-  /// Subscribes to storage for call changes.
-  void _subscribeToCallChanges() {
-    _callsSubscription = _configuration.aliceStorage.callsStream.listen(
-      _onCallsChanged,
-    );
-  }
-
-  /// Unsubscribes storage for call changes.
-  void _unsubscribeFromCallChanges() {
-    _callsSubscription?.cancel();
-    _callsSubscription = null;
-  }
 }

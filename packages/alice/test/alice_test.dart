@@ -20,7 +20,6 @@ void main() {
       alice = Alice(
         configuration: AliceConfiguration(
           showInspectorOnShake: false,
-          showNotification: false,
           logger: aliceLogger,
           storage: aliceStorage,
         ),
