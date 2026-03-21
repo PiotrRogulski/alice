@@ -13,8 +13,10 @@ environment:
   sdk: ">=3.7.0 <4.0.0"
   flutter: ">=3.29.0"
 
+resolution: workspace
+
 dependencies:
-  alice: ^1.0.0
+  alice:
   http: ^1.4.0
 
 dev_dependencies:

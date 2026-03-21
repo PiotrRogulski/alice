@@ -1,6 +1,15 @@
 name: alice_workspace
 
+workspace:
+  - packages/alice
+  - packages/alice_chopper
+  - packages/alice_dio
+  - packages/alice_http
+  - packages/alice_http_client
+  - packages/alice_objectbox
+  - packages/alice_test
+
 environment:
-  sdk: ">=3.0.0 <4.0.0"
+  sdk: ">=3.11.0 <4.0.0"
 dev_dependencies:
   melos: ^6.0.0

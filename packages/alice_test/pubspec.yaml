@@ -8,8 +8,10 @@ publish_to: none
 environment:
   sdk: ^3.7.0
 
+resolution: workspace
+
 dependencies:
-  alice: ^1.0.0
+  alice:
   test: ^1.25.15
   mocktail: ^1.0.4
 
