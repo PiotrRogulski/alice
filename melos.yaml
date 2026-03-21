@@ -1,5 +1,7 @@
 name: alice
 
+sdkPath: .fvm/flutter_sdk
+
 packages:
   - packages/**
 
